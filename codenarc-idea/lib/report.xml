@@ -1,0 +1,18 @@
+<project name="test" default="runCodeNarc">
+    <taskdef name="codenarc" classname="org.codenarc.ant.CodeNarcTask"/>
+    <target name="runCodeNarc">
+        <codenarc
+                ruleSetFiles="file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/custom_rule.xml"
+                maxPriority1Violations="100">
+
+            <report type="html">
+                <option name="outputFile" value="C:\Users\Janine\Desktop\test\reports/CodeNarcAntReport.html" />
+                <option name="title" value="My Sample Code" />
+            </report>
+
+            <fileset dir="C:\Users\Janine\Desktop\test\src">
+                <include name="**/*.groovy"/>
+            </fileset>
+        </codenarc>
+    </target>
+</project>

@@ -1,0 +1,77 @@
+<ruleset xmlns="http://codenarc.org/ruleset/1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://codenarc.org/ruleset/1.0 http://codenarc.org/ruleset-schema.xsd"
+        xsi:noNamespaceSchemaLocation="http://codenarc.org/ruleset-schema.xsd">
+
+    <description>Sample rule set</description>
+
+    <ruleset-ref path='rulesets/unused.xml'>
+	<include name='UnusedArray'/>
+	<include name='UnusedObject'/>
+    </ruleset-ref>
+    <ruleset-ref path='rulesets/basic.xml'>
+        <include name='AssignmentInConditional'/>
+	<include name='BitwiseOperatorInConditional'/>
+        <include name='BrokenNullCheck'/>
+	<include name='BrokenOddnessCheck'/>
+        <include name='ComparisonOfTwoConstants'/>
+	<include name='ComparisonWithSelf'/>
+        <include name='ConstantIfExpression'/>
+	<include name='ConstantTernaryExpression'/>
+        <include name='DuplicateMapKey'/>
+	<include name='DuplicateSetValue'/>
+        <include name='EmptyCatchBlock'/>
+	<include name='EmptyElseBlock'/>
+        <include name='EmptyFinallyBlock'/>
+	<include name='EmptyForStatement'/>
+        <include name='EmptyIfStatement'/>
+	<include name='EmptyMethod'/>
+        <include name='EmptySwitchStatement'/>
+	<include name='EmptyTryBlock'/>
+        <include name='EmptyWhileStatement'/>
+        <include name='RandomDoubleCoercedToZero'/>
+        <include name='ReturnFromFinallyBlock'/>
+	<include name='ThrowExceptionFromFinallyBlock'/>
+        <include name='ForLoopShouldBeWhileLoop'/>
+        <include name='DoubleNegative'/>
+        <include name='DeadCode'/>
+    </ruleset-ref>
+    <ruleset-ref path='rulesets/convention.xml'>
+        <include name='ParameterReassignment'/>
+        <include name='ConfusingTernary'/>
+        <include name='CouldBeElvis'/>
+        <include name='IfStatementCouldBeTernary'/>
+        <include name='InvertedIfElse'/>
+        <include name='TernaryCouldBeElvis'/>
+    </ruleset-ref>
+    <ruleset-ref path='rulesets/size.xml'>
+        <include name='CyclomaticComplexity'/>
+        <include name='NestedBlockDepth'/>
+        <include name='MethodSize'/>
+        <include name='MethodCount'/>
+        <include name='AbcMetric'/>
+    </ruleset-ref>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/AvoidRecurringShortSchedulesRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/NoBusyLoopRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/NoSynchronizedRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/AvoidChainedRunInCallRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/UseConsistentReturnValueRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/VerifyArrayIndexRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/HandleNullValueRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/MissingSwitchDefaultRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/DocumentExternalHTTPRequestsRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/DocumentExposedEndpointsRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/ClearSubscriptionRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/SpecificSubscriptionRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/NoDynamicMethodExecutionRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/NoHardcodeSMSRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/NoRestrictedMethodCallsRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/SeparateParentChildAppRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/NoMissingEventHandlerRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/SingleArgEventHandlerRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/NoGlobalVariableRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/AtomicStateUsageRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/AtomicStateUpdateUsageRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/TotalLinesOfCodeRule.groovy'/>
+
+</ruleset>
