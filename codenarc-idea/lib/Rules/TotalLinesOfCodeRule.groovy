@@ -36,8 +36,31 @@ class TotalLinesOfCodeAstVisitor extends AbstractAstVisitor {
 
     @Override
     void visitClassEx(ClassNode classNode) {
-        //this includes comments
+        def numCommentLines = 0
         def numLines = this.sourceCode.getLines().size()
+        def numBlankLines = 0
+        boolean isComment = false
+
+        for( int i = 0; i< numLines; i++){
+            if (isComment){
+                numCommentLines++
+                if (this.sourceCode.line(i).endsWith("*/"))
+                    isComment = false
+            }else{
+                if (this.sourceCode.line(i).isEmpty())
+                    numBlankLines++
+                if (this.sourceCode.line(i).startsWith("//"))
+                    numCommentLines++
+
+                if (this.sourceCode.line(i).startsWith("/*")){
+                    numCommentLines++
+                    isComment=true
+                }
+            }
+        }
+
+        numLines = numLines - numCommentLines - numBlankLines
+
         if (numLines > rule.maxLines)
             addViolation(
                     classNode, "File has $numLines lines")
