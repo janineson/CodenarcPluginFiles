@@ -16,6 +16,8 @@
 package org.codenarc.rule.basic
 
 import org.codehaus.groovy.ast.expr.MethodCallExpression
+import org.codehaus.groovy.ast.expr.PropertyExpression
+import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codenarc.rule.AbstractAstVisitor
 import org.codenarc.rule.AbstractAstVisitorRule
 
@@ -49,8 +51,13 @@ class NoRestrictedMethodCallsAstVisitor extends AbstractAstVisitor {
     @Override
     void visitMethodCallExpression(MethodCallExpression call) {
         if(call.method.hasProperty('value'))
-            if (restrictedMethodSet.contains(call.method.value))
-                addViolation(call, 'SmartThings restricted methods calls are not allowed.')
+            if (restrictedMethodSet.contains(call.method.value)){
+                if (call.objectExpression instanceof PropertyExpression){
+                    if(call.objectExpression.property.value != "helloHome") //exception. http://docs.smartthings.com/en/latest/smartapp-developers-guide/routines.html#execute-routines
+                        addViolation(call, 'SmartThings restricted methods calls are not allowed.')
+                }else
+                    addViolation(call, 'SmartThings restricted methods calls are not allowed.')
+            }
 
         super.visitMethodCallExpression(call)
     }
