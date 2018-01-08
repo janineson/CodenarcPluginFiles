@@ -50,9 +50,16 @@ class HandleNullValueAstVisitor extends AbstractAstVisitor {
                 explore(expression.objectExpression, call)
             else {
                 if (expression.objectExpression.hasProperty('variable'))
-                    if (propertySet.contains(expression.objectExpression.variable)  && !call.safe)
-                        addViolation(
-                            call, 'Handle null values. Avoid NullPointerException by using the safe navigation (?) operator.')
+                    if (propertySet.contains(expression.objectExpression.variable)  && !call.safe){
+                        if (call.objectExpression instanceof PropertyExpression) {
+                            if (call.objectExpression.property.value != "helloHome") //exception. http://docs.smartthings.com/en/latest/smartapp-developers-guide/routines.html#execute-routines
+                                addViolation(call, 'Handle null values. Avoid NullPointerException by using the safe navigation (?) operator.')
+                        }else
+                            addViolation(call, 'Handle null values. Avoid NullPointerException by using the safe navigation (?) operator.')
+                    }
+
+
+
 
             }
 
