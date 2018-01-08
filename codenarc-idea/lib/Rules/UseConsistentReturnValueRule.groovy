@@ -35,6 +35,7 @@ class UseConsistentReturnValueRule extends AbstractAstVisitorRule {
 
 class UseConsistentReturnValueAstVisitor extends AbstractAstVisitor {
     def dType
+
     @Override
     void visitMethodEx(MethodNode node) {
         dType = null
@@ -44,20 +45,27 @@ class UseConsistentReturnValueAstVisitor extends AbstractAstVisitor {
     @Override
     void visitReturnStatement(ReturnStatement statement) {
 
-        if(isFirstVisit(statement)) {
+        if (isFirstVisit(statement)) {
             if (dType.is(null))
                 dType = statement.expression.type
 
-            if (dType != statement.expression.type){
+            if (dType != statement.expression.type) {
                 if (statement.expression instanceof VariableExpression) {
                     if (!statement.expression.isDynamicTyped)
                         addViolation(statement, "Use consistent return values.")
-                }else
-                    addViolation(statement, "Use consistent return values.")
-            }
+                } else {
+                    if (dType.name == "java.lang.String" && statement.expression.type.name == "groovy.lang.GString") {
+                        //ok
+                    } else if (dType.name == "groovy.lang.GString" && statement.expression.type.name == "java.lang.String") {
+                        //ok
+                    } else
+                        addViolation(statement, "Use consistent return values.")
+                }
 
+            }
+            super.visitReturnStatement(statement)
         }
-        super.visitReturnStatement(statement)
+
     }
 
 }
