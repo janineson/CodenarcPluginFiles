@@ -15,8 +15,9 @@
  */
 package org.codenarc.rule.basic
 
-import org.codenarc.rule.Rule
 import org.codehaus.groovy.ast.MethodNode
+import org.codehaus.groovy.ast.expr.ArgumentListExpression
+import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codehaus.groovy.ast.stmt.ReturnStatement
 import org.codenarc.rule.AbstractAstVisitor
 import org.codenarc.rule.AbstractAstVisitorRule
@@ -47,10 +48,16 @@ class UseConsistentReturnValueAstVisitor extends AbstractAstVisitor {
             if (dType.is(null))
                 dType = statement.expression.type
 
-            if (dType != statement.expression.type)
-                addViolation(statement, "Use consistent return values.")
+            if (dType != statement.expression.type){
+                if (statement.expression instanceof VariableExpression) {
+                    if (!statement.expression.isDynamicTyped)
+                        addViolation(statement, "Use consistent return values.")
+                }else
+                    addViolation(statement, "Use consistent return values.")
+            }
 
         }
         super.visitReturnStatement(statement)
     }
+
 }
