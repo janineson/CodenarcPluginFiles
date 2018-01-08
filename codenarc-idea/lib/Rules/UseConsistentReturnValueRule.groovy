@@ -17,6 +17,7 @@ package org.codenarc.rule.basic
 
 import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
+import org.codehaus.groovy.ast.expr.TernaryExpression
 import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codehaus.groovy.ast.stmt.ReturnStatement
 import org.codenarc.rule.AbstractAstVisitor
@@ -58,8 +59,11 @@ class UseConsistentReturnValueAstVisitor extends AbstractAstVisitor {
                         //ok
                     } else if (dType.name == "groovy.lang.GString" && statement.expression.type.name == "java.lang.String") {
                         //ok
-                    } else
-                        addViolation(statement, "Use consistent return values.")
+                    } else if (statement.expression instanceof TernaryExpression) {
+                        if (statement.expression.trueExpression.type.name != "groovy.lang.GString")
+                            addViolation(statement, "Use consistent return values.")
+                    }else
+                            addViolation(statement, "Use consistent return values.")
                 }
 
             }
