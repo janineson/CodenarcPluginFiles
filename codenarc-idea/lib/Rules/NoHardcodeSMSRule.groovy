@@ -42,8 +42,11 @@ class NoHardcodeSMSAstVisitor extends AbstractAstVisitor {
         if(AstUtil.isMethodNamed(call, 'input')) {
             def arg1 = call.arguments.expressions[2]
             if (arg1 instanceof ConstantExpression)
-                if (arg1.value.equals('contact') || arg1.value.equals('phone') )
-                    contactName.add(call.arguments.expressions[1].value)
+                if (arg1.value.equals('contact') || arg1.value.equals('phone')){
+                    if (call.arguments.expressions[1] instanceof ConstantExpression)
+                        contactName.add(call.arguments.expressions[1].value)
+                }
+
         }
 
 
