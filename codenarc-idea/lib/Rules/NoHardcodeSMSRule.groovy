@@ -54,9 +54,9 @@ class NoHardcodeSMSAstVisitor extends AbstractAstVisitor {
             def attributeName = call.arguments.expressions[1]
             if (attributeName instanceof ConstantExpression)
                 addViolation(call, 'Do not hard-code SMS messages.')
-            if (attributeName instanceof VariableExpression)
-                if (!contactName.contains(attributeName.variable))
-                    addViolation(call, 'Do not hard-code SMS messages.')
+            //if (attributeName instanceof VariableExpression)
+            //   if (!contactName.contains(attributeName.variable))
+            //       addViolation(call, 'Do not hard-code SMS messages.')
         }
 
 
