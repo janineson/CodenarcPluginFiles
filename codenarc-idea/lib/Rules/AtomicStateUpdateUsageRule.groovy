@@ -15,6 +15,7 @@
  */
 package org.codenarc.rule.basic
 
+import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.MapExpression
 import org.codehaus.groovy.ast.expr.BinaryExpression
 import org.codehaus.groovy.ast.expr.PropertyExpression
@@ -23,7 +24,7 @@ import org.codenarc.rule.AbstractAstVisitor
 import org.codenarc.rule.AbstractAstVisitorRule
 
 /**
- * Modifying collections in Atomic State does not work as it does with State. {Read documentation for reference.[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+ * Modifying collections in Atomic State does not work as it does with State. {Read documentation for reference.
  *
  * @author Janine Son
  */
@@ -42,19 +43,20 @@ class AtomicStateUpdateUsageAstVisitor extends AbstractAstVisitor {
         if(expression.leftExpression instanceof PropertyExpression){
             if (propertyVal.is(null)) {
                 if(expression.leftExpression.objectExpression instanceof VariableExpression){
-                    if (expression.leftExpression.objectExpression.variable == 'atomicState')
-                        propertyVal = expression.leftExpression.property.value
+                    if (expression.leftExpression.objectExpression.variable == 'atomicState'){
+                        if(expression.leftExpression.property instanceof ConstantExpression)
+                            propertyVal = expression.leftExpression.property.value
+                    }
+
                 }
 
             } else {
-
-                if (propertyVal == String.valueOf(expression.leftExpression.property.value)) {
-                    isUpdate = true
+                if(expression.leftExpression.property instanceof ConstantExpression){
+                    if (propertyVal == String.valueOf(expression.leftExpression.property.value))
+                        isUpdate = true
                 }
             }
-
         }
-
 
         if (expression.rightExpression instanceof MapExpression){
             if (isUpdate) {

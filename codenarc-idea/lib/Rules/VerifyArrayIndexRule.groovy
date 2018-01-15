@@ -19,6 +19,7 @@ package org.codenarc.rule.exceptions
 import org.codehaus.groovy.ast.expr.BinaryExpression
 import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
+import org.codehaus.groovy.ast.expr.PropertyExpression
 import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codehaus.groovy.ast.stmt.IfStatement
 import org.codenarc.rule.AbstractAstVisitor
@@ -41,7 +42,7 @@ class VerifyArrayIndexAstVisitor extends AbstractAstVisitor {
     void visitIfElse(IfStatement ifElse) {
         def statementExpression = ifElse.booleanExpression.expression
 
-        if (statementExpression instanceof BinaryExpression)
+        if(statementExpression instanceof BinaryExpression)
             explore statementExpression
 
         super.visitIfElse(ifElse)
@@ -91,6 +92,22 @@ class VerifyArrayIndexAstVisitor extends AbstractAstVisitor {
         } else
             varName = expression.value
     }
+
+    void getVarName(PropertyExpression expression, Boolean isCheck){
+        if (isCheck){
+            if(varName != expression.text)
+                addViolation(expression, "Verify array index.")
+        } else
+            varName = expression.text
+    }
+    void getVarName(BinaryExpression expression, Boolean isCheck){
+        if (isCheck){
+            if(varName != expression.text)
+                addViolation(expression, "Verify array index.")
+        } else
+            varName = expression.text
+    }
+
 
     @Override
     void visitBinaryExpression(BinaryExpression expression) {
