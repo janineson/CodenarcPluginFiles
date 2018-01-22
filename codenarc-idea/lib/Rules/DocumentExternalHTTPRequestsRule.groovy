@@ -15,7 +15,6 @@
  */
 package org.codenarc.rule.basic
 
-import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
 import org.codenarc.rule.AbstractAstVisitor
@@ -35,28 +34,13 @@ class DocumentExternalHTTPRequestsRule extends AbstractAstVisitorRule {
 class DocumentExternalHTTPRequestsAstVisitor extends AbstractAstVisitor {
     Set<String> httpCalls = new HashSet<String>(Arrays.asList("httpGet", "httpDelete","httpHead",
         "httpPost","httpPostJson", "httpPutJson"))
-    boolean hasComment = false
+
 
     @Override
     void visitMethodCallExpression(MethodCallExpression call) {
         if(call.method.hasProperty('value'))
-            if(httpCalls.contains(call.method.value) && !hasComment) {
+            if(httpCalls.contains(call.method.value)) {
                 addViolation(call, 'Document external HTTP requests.')
             }
-    }
-
-    @Override
-    void visitClassEx(ClassNode classNode) {
-        def numLines = this.sourceCode.getLines().size()
-
-        for( int i = 0; i< numLines; i++){
-            if (this.sourceCode.line(i).startsWith("//"))
-                hasComment = true
-
-            if (this.sourceCode.line(i).startsWith("/*")){
-                hasComment = true
-            }
-        }
-
     }
 }

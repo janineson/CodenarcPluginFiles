@@ -15,13 +15,10 @@
  */
 package org.codenarc.rule.basic
 
-import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.expr.ClosureExpression
-import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
 import org.codenarc.rule.AbstractAstVisitor
 import org.codenarc.rule.AbstractAstVisitorRule
-import org.codenarc.util.AstUtil
 
 /**
  * Document any exposed endpoints.
@@ -35,30 +32,14 @@ class DocumentExposedEndpointsRule extends AbstractAstVisitorRule {
 }
 
 class DocumentExposedEndpointsAstVisitor extends AbstractAstVisitor {
-    boolean hasComment = false
 
     @Override
     void visitMethodCallExpression(MethodCallExpression call) {
         if(call.method.hasProperty('value'))
-            if(call.method.value == "mappings" && call.arguments.expressions[0] instanceof ClosureExpression && !hasComment) {
+            if(call.method.value == "mappings" && call.arguments.expressions[0] instanceof ClosureExpression) {
                 addViolation(call, 'Document any exposed endpoints.')
             }
 
-
-    }
-
-    @Override
-    void visitClassEx(ClassNode classNode) {
-        def numLines = this.sourceCode.getLines().size()
-
-        for( int i = 0; i< numLines; i++){
-            if (this.sourceCode.line(i).startsWith("//"))
-                hasComment = true
-
-            if (this.sourceCode.line(i).startsWith("/*")){
-                hasComment = true
-            }
-        }
 
     }
 }
