@@ -15,6 +15,7 @@
  */
 package org.codenarc.rule.security
 
+import org.codehaus.groovy.ast.Parameter
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
 import org.codehaus.groovy.ast.expr.ClosureExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
@@ -45,10 +46,12 @@ class NoDynamicMethodExecutionAstVisitor extends AbstractAstVisitor {
 
         if (call.method.hasProperty('value'))
             if (httpCalls.contains(call.method.value))
-                if (call.arguments instanceof ArgumentListExpression)
-                    if (call.arguments.expressions[1] instanceof ClosureExpression)
-                                 paramNames.add(call.arguments.expressions[1].parameters[0].name)
-
+                if (call.arguments instanceof ArgumentListExpression){
+                    if(call.arguments.hasProperty('expressions'))
+                        if (call.arguments.expressions[1] instanceof ClosureExpression)
+                            if(call.arguments.expressions[1].parameters.length > 0)
+                                    paramNames.add(call.arguments.expressions[1].parameters[0].name)
+                }
 
         if(AstUtil.classNodeImplementsType(call.method.getType(), GString))
             if (call.objectExpression instanceof VariableExpression)

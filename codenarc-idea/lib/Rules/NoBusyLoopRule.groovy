@@ -16,6 +16,7 @@
 package org.codenarc.rule.basic
 
 import org.codehaus.groovy.ast.expr.BinaryExpression
+import org.codehaus.groovy.ast.expr.GStringExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
 import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codehaus.groovy.ast.stmt.WhileStatement
@@ -56,8 +57,14 @@ class NoBusyLoopAstVisitor extends AbstractAstVisitor {
 
     boolean explore(BinaryExpression expression) {
         if(expression.rightExpression instanceof MethodCallExpression && expression.leftExpression instanceof VariableExpression)
-            if (expression.rightExpression.method.value == 'now'){
-                varName = expression.leftExpression.variable
+            if (expression.rightExpression.method instanceof GStringExpression){
+                if (expression.rightExpression.method.values == 'now'){
+                    varName = expression.leftExpression.variable
+                }
+            }else {
+                if (expression.rightExpression.method.value == 'now'){
+                    varName = expression.leftExpression.variable
+                }
             }
 
         if (expression.leftExpression instanceof MethodCallExpression)
