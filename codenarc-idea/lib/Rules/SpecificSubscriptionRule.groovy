@@ -70,7 +70,7 @@ class SpecificSubscriptionAstVisitor extends AbstractAstVisitor {
             if (call.arguments.expressions[1] instanceof ConstantExpression)
                 eventName = call.arguments.expressions[1]?.value
             else
-                eventName = call.arguments.expressions[1]?.name
+                addViolation(call, 'Subscription must be specific to the Event you are interested in.')
 
             if (eventName != null){
                 //if it is not declared as an input name in the preferences subscription OR
