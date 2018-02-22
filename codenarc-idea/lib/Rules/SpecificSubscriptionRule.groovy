@@ -43,12 +43,12 @@ class SpecificSubscriptionAstVisitor extends AbstractAstVisitor {
     Set<String> inputNames= new HashSet<String>()
     Set<String> capabilityOtherAttr= new HashSet<String>(Arrays.asList("airQuality","audioTrackData", "volume", "battery", "numberOfButtons",
         "carbonDioxide", "color", "hue", "saturation", "colorTemperature","fineDustLevel","dustLevel","energy","eta","data","fanSpeed","latitude",
-       "longitude","method","accuracy", "altitudeAccuracy", "heading", "speed", "lastUpdateTime", "numberOfButtons", "illuminance","image",
+       "longitude","method","accuracy", "altitudeAccuracy", "heading", "speed", "lastUpdateTime",  "illuminance","image",
         "infraredLevel", "activities","currentActivity", "supportedInputSources", "level","status", "trackData","trackDescription","odorLevel",
         "supportedMachineStates", "remainingTime","operationTime","ovenSetpoint","pH","power","refrigerationSetpoint","humidity","lqi",
         "rssi","soundPressureLevel", "phraseSpoken","goal","steps","temperature","coolingSetpoint","coolingSetpointRange",
         "supportedThermostatFanModes","heatingSetpoint","heatingSetpointRange","supportedThermostatModes","thermostatSetpoint",
-        "thermostatSetpointRange","schedule", "threeAxis","tvChannel","ultravioletIndex","stream","voltage",""))
+        "thermostatSetpointRange","schedule", "threeAxis","tvChannel","ultravioletIndex","stream","voltage","button"))
 
     @Override
     void visitMethodCallExpression(MethodCallExpression call){
