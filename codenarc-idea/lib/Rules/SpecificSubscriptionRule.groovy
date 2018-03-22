@@ -48,7 +48,8 @@ class SpecificSubscriptionAstVisitor extends AbstractAstVisitor {
         "supportedMachineStates", "remainingTime","operationTime","ovenSetpoint","pH","power","refrigerationSetpoint","humidity","lqi",
         "rssi","soundPressureLevel", "phraseSpoken","goal","steps","temperature","coolingSetpoint","coolingSetpointRange",
         "supportedThermostatFanModes","heatingSetpoint","heatingSetpointRange","supportedThermostatModes","thermostatSetpoint",
-        "thermostatSetpointRange","schedule", "threeAxis","tvChannel","ultravioletIndex","stream","voltage","button", "sunrise", "sunset"))
+        "thermostatSetpointRange","schedule", "threeAxis","tvChannel","ultravioletIndex","stream","voltage","button", "sunrise", "sunset",
+        "sunriseTime", "sunsetTime","position"))
 
     @Override
     void visitMethodCallExpression(MethodCallExpression call){
