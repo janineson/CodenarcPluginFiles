@@ -16,6 +16,7 @@
 package org.codenarc.rule.basic
 
 import org.codehaus.groovy.ast.expr.MethodCallExpression
+import org.codehaus.groovy.ast.expr.PropertyExpression
 import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codenarc.rule.AbstractAstVisitor
 import org.codenarc.rule.AbstractAstVisitorRule
@@ -33,15 +34,24 @@ class CountSubscriptionRule extends AbstractAstVisitorRule {
 }
 
 class CountSubscriptionAstVisitor extends AbstractAstVisitor {
-
+    Set<String> subscriptions= new HashSet<String>()
+    //check for duplicate
     @Override
     void visitMethodCallExpression(MethodCallExpression call){
         //count subscription
         if(AstUtil.isMethodNamed(call, 'subscribe')){
             if (call.arguments.expressions[0] instanceof VariableExpression){
-                if (call.arguments.expressions[0]?.name != 'location')
+                if ((call.arguments.expressions[0]?.name != 'location') &&
+                        (call.arguments.expressions[0]?.name != 'app') &&
+                        !(subscriptions.contains(call.arguments.expressions[0]?.name + call.arguments.expressions[1].toString()))){
+                    subscriptions.add((String) call.arguments.expressions[0]?.name + call.arguments.expressions[1].toString())
                     addViolation(call, 'This is a subscription.')
-
+                }
+            }else if (call.arguments.expressions[0] instanceof PropertyExpression){
+                if (!(subscriptions.contains(call.arguments.expressions[0]?.toString() + call.arguments.expressions[1].toString()))){
+                    subscriptions.add((String) call.arguments.expressions[0]?.toString() + call.arguments.expressions[1].toString())
+                        addViolation(call, 'This is a subscription.')
+                }
             }
 
         }

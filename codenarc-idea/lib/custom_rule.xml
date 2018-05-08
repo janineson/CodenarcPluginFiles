@@ -3,11 +3,11 @@
         xsi:schemaLocation="http://codenarc.org/ruleset/1.0 http://codenarc.org/ruleset-schema.xsd"
         xsi:noNamespaceSchemaLocation="http://codenarc.org/ruleset-schema.xsd">
 
-    <description>Sample rule set</description>
+    <description>SmartApp rule set</description>
 
     <ruleset-ref path='rulesets/unused.xml'>
-	<include name='UnusedArray'/>
-	<include name='UnusedObject'/>
+        <include name='UnusedArray'/>
+        <include name='UnusedObject'/>
     </ruleset-ref>
     <ruleset-ref path='rulesets/basic.xml'>
         <include name='AssignmentInConditional'/>
@@ -73,5 +73,7 @@
     <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/AtomicStateUsageRule.groovy'/>
     <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/AtomicStateUpdateUsageRule.groovy'/>
     <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/TotalLinesOfCodeRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/CountInputRule.groovy'/>
+    <rule-script path='file:///C:\Users\Janine\.IdeaIC2017.1\config\plugins\codenarc-idea\lib/Rules/CountSubscriptionRule.groovy'/>
 
 </ruleset>
