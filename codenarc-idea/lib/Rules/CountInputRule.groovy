@@ -39,9 +39,14 @@ class CountInputRule extends AbstractAstVisitorRule {
 }
 
 class CountInputAstVisitor extends AbstractAstVisitor {
+    //bool will also catch boolean
+    List<String> types = Arrays.asList("capability.", "device.", "bool","decimal",
+        "email", "enum", "hub", "icon", "number", "password", "phone", "time", "text");
+
     @Override
     void visitMethodCallExpression(MethodCallExpression call) {
-        def capabilityName, capabilityName2
+
+        def capabilityName = "", capabilityName2 = ""
         //count input
         if (AstUtil.isMethodNamed(call, 'input')) {
             if (call.arguments.expressions[2] instanceof ConstantExpression)
@@ -57,8 +62,12 @@ class CountInputAstVisitor extends AbstractAstVisitor {
                 }
             }
 
-            if (capabilityName?.contains('capability.') || capabilityName?.contains('device.') || capabilityName?.contains('hub'))
-                addViolation(call, 'This is a device input.')
+            if (capabilityName != null) {
+                for (String s : types) {
+                    if (capabilityName.contains(s))
+                        addViolation(call, 'This is an input.')
+                }
+            }
 
             if (call.arguments.expressions[0] instanceof NamedArgumentListExpression) {
 
@@ -82,8 +91,20 @@ class CountInputAstVisitor extends AbstractAstVisitor {
                         capabilityName2 = call.arguments.expressions[0].mapEntryExpressions[2].valueExpression.verbatimText
                 }
 
-                if (capabilityName2?.contains('capability.') || capabilityName2?.contains('device.')|| capabilityName2?.contains('hub'))
-                    addViolation(call, 'This is a device input.')
+                //special case
+                if (call.arguments.expressions[0].mapEntryExpressions[0].valueExpression instanceof ConstantExpression) {
+                    if (call.arguments.expressions[0].mapEntryExpressions[0].keyExpression.value == 'type')
+                        capabilityName2 = call.arguments.expressions[0].mapEntryExpressions[0].valueExpression.value
+                }
+
+
+
+                if (capabilityName2 != null) {
+                    for (String s2 : types) {
+                        if (capabilityName2.contains(s2))
+                            addViolation(call, 'This is an input.')
+                    }
+                }
 
 
             }
@@ -95,8 +116,13 @@ class CountInputAstVisitor extends AbstractAstVisitor {
             else if (call.arguments.expressions[2] instanceof GStringExpression)
                 capabilityName = (String) call.arguments.expressions[2].verbatimText
 
-            if (capabilityName?.contains('capability.') || capabilityName?.contains('device.') || capabilityName?.contains('hub'))
-                addViolation(call, 'This is a device input.')
+            if (capabilityName != null) {
+                for (String s : types) {
+                    if (capabilityName.contains(s))
+                        addViolation(call, 'This is an input.')
+                }
+            }
+
         }
 
         super.visitMethodCallExpression(call)
@@ -106,14 +132,27 @@ class CountInputAstVisitor extends AbstractAstVisitor {
 
     @Override
     void visitDeclarationExpression(DeclarationExpression expression) {
-        def capabilityName
+        def capabilityName = ""
 
         if (expression.rightExpression instanceof MapExpression) {
+
+            if (expression.rightExpression?.mapEntryExpressions[0]?.keyExpression?.value == 'type')
+                capabilityName = (String) expression.rightExpression.mapEntryExpressions[0]?.valueExpression?.value
+
             if (expression.rightExpression?.mapEntryExpressions[1]?.keyExpression?.value == 'type')
                 capabilityName = (String) expression.rightExpression.mapEntryExpressions[1]?.valueExpression?.value
 
-            if (capabilityName?.contains('capability.') || capabilityName?.contains('device.') || capabilityName?.contains('hub'))
-                addViolation(expression, 'This is a device input.')
+            if (expression.rightExpression?.mapEntryExpressions[2]?.keyExpression?.value == 'type')
+                capabilityName = (String) expression.rightExpression.mapEntryExpressions[2]?.valueExpression?.value
+
+
+            if (capabilityName != null){
+                for (String s: types) {
+                    if (capabilityName.contains(s))
+                        addViolation(expression, 'This is a device input.')
+                }
+
+            }
 
         }
 

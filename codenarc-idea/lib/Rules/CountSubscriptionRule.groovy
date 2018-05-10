@@ -41,9 +41,9 @@ class CountSubscriptionAstVisitor extends AbstractAstVisitor {
         //count subscription
         if(AstUtil.isMethodNamed(call, 'subscribe')){
             if (call.arguments.expressions[0] instanceof VariableExpression){
-                if ((call.arguments.expressions[0]?.name != 'location') &&
-                        (call.arguments.expressions[0]?.name != 'app') &&
-                        !(subscriptions.contains(call.arguments.expressions[0]?.name + call.arguments.expressions[1].toString()))){
+               // call.arguments.expressions[0]?.name != 'location') &&
+               // (call.arguments.expressions[0]?.name != 'app') &&
+                if (!(subscriptions.contains(call.arguments.expressions[0]?.name + call.arguments.expressions[1].toString()))){
                     subscriptions.add((String) call.arguments.expressions[0]?.name + call.arguments.expressions[1].toString())
                     addViolation(call, 'This is a subscription.')
                 }
