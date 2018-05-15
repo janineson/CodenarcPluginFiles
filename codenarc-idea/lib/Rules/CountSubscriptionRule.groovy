@@ -48,8 +48,8 @@ class CountSubscriptionAstVisitor extends AbstractAstVisitor {
                     addViolation(call, 'This is a subscription.')
                 }
             }else if (call.arguments.expressions[0] instanceof PropertyExpression){
-                if (!(subscriptions.contains(call.arguments.expressions[0]?.toString() + call.arguments.expressions[1].toString()))){
-                    subscriptions.add((String) call.arguments.expressions[0]?.toString() + call.arguments.expressions[1].toString())
+                if (!(subscriptions.contains(call.arguments.expressions[0].objectExpression.variable + call.arguments.expressions[0].property.value + call.arguments.expressions[1].toString()))){
+                    subscriptions.add((String) call.arguments.expressions[0].objectExpression.variable + call.arguments.expressions[0].property.value + call.arguments.expressions[1].toString())
                         addViolation(call, 'This is a subscription.')
                 }
             }

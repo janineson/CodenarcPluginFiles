@@ -15,10 +15,8 @@
  */
 package org.codenarc.rule.basic
 
-import org.codehaus.groovy.ast.MethodNode
-import org.codehaus.groovy.ast.expr.DeclarationExpression
+import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.MethodCallExpression
-import org.codehaus.groovy.ast.expr.PropertyExpression
 import org.codehaus.groovy.ast.expr.VariableExpression
 import org.codenarc.rule.AbstractAstVisitor
 import org.codenarc.rule.AbstractAstVisitorRule
@@ -43,18 +41,33 @@ class CountEventHandlerAstVisitor extends AbstractAstVisitor {
     void visitMethodCallExpression(MethodCallExpression call){
         def eventHandler
         //check for duplicate
-        if(AstUtil.isMethodNamed(call, 'subscribe', 3)) {
-            if (call.arguments.expressions[2] instanceof VariableExpression ) {
-                eventHandler = call.arguments.expressions[2].variable.toString()
-                checkHandlerExists(call, eventHandler, subscriptions)
-            }
-        }else{
-            if(AstUtil.isMethodNamed(call, 'subscribe', 2)) {
+        //check if 2 args only. then handler is the 2nd arg
+        if(AstUtil.isMethodNamed(call, 'subscribe', 2)) {
                 if (call.arguments.expressions[1] instanceof VariableExpression ) {
                     eventHandler = call.arguments.expressions[1].variable.toString()
                     checkHandlerExists(call, eventHandler, subscriptions)
                 }
+                if (call.arguments.expressions[1] instanceof ConstantExpression ) {
+                    eventHandler = call.arguments.expressions[1].value
+                    checkHandlerExists(call, eventHandler, subscriptions)
+                }
+
+        }else{
+            if(AstUtil.isMethodNamed(call, 'subscribe')) {
+                //normal case is 3 args. handler is always the third arg
+                //if args are 3 or more
+                if (call.arguments.expressions[2] instanceof VariableExpression ) {
+                    eventHandler = call.arguments.expressions[2].variable.toString()
+                    checkHandlerExists(call, eventHandler, subscriptions)
+                }
+
+                if (call.arguments.expressions[2] instanceof ConstantExpression ) {
+                    eventHandler = call.arguments.expressions[2].value
+                    checkHandlerExists(call, eventHandler, subscriptions)
+                }
             }
+
+
         }
 
         super.visitMethodCallExpression(call)
